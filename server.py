@@ -668,6 +668,29 @@ def success():
     return jsonify(success_arrs)
 
 
+
+@app.route('/get_success_order_with_email', methods=["POST"])
+def successPost():
+         data = request.get_json()
+         if request.method == "POST":
+            success_arr = []
+         orderes  = db.successfull.find()
+         for i in orderes:
+             serialized_dish = serialize_document(i)
+             success_arr.append(serialized_dish)
+
+         success_arrs = list(success_arr)
+
+         arr5 = []
+
+         for i in success_arrs:
+             if i["Email"] == data["Email"]:
+                 arr5.append(i)
+
+
+         return jsonify(arr5)     
+
+
 @app.route('/delete_success_order/<Id>', methods=["DELETE"])
 def delete_success(Id):
     if request.method == "DELETE":
